@@ -1,0 +1,28 @@
+{% extends 'dashboard/_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Sign up{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between border-bottom">
+    <div class=" p-2">
+        <h4 class="h4">Edit user profile</h4>
+    </div>
+    <div class="p-2">
+        <a class="btn btn-primary btn-sm" href="{% url 'icases:icase-list' %}">Go to my case list</a>
+    </div>
+</div>
+
+<div class="p-2 ">
+    <div class="">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ profile_form | crispy}}
+            <input class="btn btn-primary" type="submit" value="Profile Save">
+        </form>
+    </div>
+</div>
+
+
+{% endblock content %}

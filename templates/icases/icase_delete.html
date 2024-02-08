@@ -1,0 +1,28 @@
+{% extends 'dashboard/_base.html' %}
+
+{% block title %}Delete a case{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between border-bottom">
+    <div class="p-2">
+        <h4 class="h4">Delete a case</h4>
+    </div>
+
+    <div class="p-2">
+        <a class="btn btn-primary" href="{% url 'icases:icase-list' %}">Back to List</a>
+        <a class="btn btn-primary" href="{% url 'icases:icase-edit' icase.id  %}">Edit</a>
+    </div>
+</div>
+<div class="p-2 ">
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete ?</p>
+        {{ form }}
+        <input class="btn btn-danger" type="submit" value="Confirm">
+    </form>
+</div>
+
+
+
+{% endblock content %}

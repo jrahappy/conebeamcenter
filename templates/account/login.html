@@ -1,0 +1,66 @@
+{% extends '_base.html' %}
+
+
+{% load crispy_forms_tags %}
+
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+
+
+
+<div class="container d-flex flex-column">
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <div class="d-flex justify-content-center p-2" style="height:auto;">
+        <div name="signin_form" class="align-self-center m-3">
+
+          <form method="post" class="form">
+            {% csrf_token %}
+
+            <div class="card border-success text-center" style="width:18rem;">
+
+              <div class=" card-header bg-transparent border-success">Log in</div>
+              <div class="card-body text-success">
+                <div id="div_id_email" class="mx-3">
+                  <input type="email" name="login" placeholder="Email address" autocomplete="email" maxlength="320"
+                    class="textinput form-control" required="" id="id_login">
+                </div>
+                <div id="div_id_password" class="mx-3">
+                  <input type="password" name="password" placeholder="Password" autocomplete="current-password"
+                    class="passwordinput form-control" required="" id="id_password">
+                </div>
+              </div>
+              <div class="card-footer bg-transparent border-successn py-3">
+                <button type="submit" value="Register" class="btn btn-primary">Log in</button>
+              </div>
+
+              <div class="card-footer bg-transparent border-success">
+                <div id="div_id_email" class="mb-3">
+                  {% load socialaccount %}
+                  {% providers_media_js %}
+                  <span class="text-muted">
+                    <img src="../../static/images/google-logo.svg" class="m-3" height="20px;">
+                  </span>
+                  <a href="{% provider_login_url 'google' %}" class="">Login with Google</a>
+                </div>
+              </div>
+
+            </div>
+
+          </form>
+          <div class="p-2">
+            <p>Forgot pasword? <a href="{% url 'account_reset_password' %}">Forgot Password?</a></p>
+            <p>Don't have an account? <a href="{% url 'account_signup' %}">Sign up</a></p>
+          </div>
+
+
+        </div>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

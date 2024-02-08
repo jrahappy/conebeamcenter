@@ -1,0 +1,118 @@
+{% extends 'dashboard/_base.html' %}
+
+{% block title %}Cases {% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h4 class="h4">My cases</h4>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a class="btn btn-primary btn-sm" href="{% url 'icases:icase-create' %}">Create a new case</a>
+        </div>
+    </div>
+</div>
+<div class="table-responsive small">
+    <div dlass="d-flex flex-row justify-content-between">
+        <div class="p-2">
+            {% for status in status_choices %}
+            <a class="btn btn-outline-secondary btn-sm" href="{% url 'icases:icase-list' %}?status={{ status.0 }}">
+                {{status.1 }}
+            </a>
+            {% endfor %}
+
+        </div>
+        <div class="p-2">
+            <form method="GET" class="row g-2" action="{% url 'icases:icase-list' %}">
+                <div class="col-auto">
+
+                </div>
+                <div class="input-group mb-3 col-auto">
+                    <input type="text" class="form-control" placeholder="Search" name="q" value="{{ request.GET.q }}"
+                        style="width:150px;">
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <table class="table table-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Created</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                {% for icase in icases %}
+                <tr>
+                    <td>{{ icase.id }}</td>
+                    <td>{{ icase.user.username }}</td>
+                    <td>{{ icase.name }}</td>
+                    <td>{{ icase.description }}</td>
+                    <td>{{ icase.status }}</td>
+                    <td>{{ icase.created_at }}</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm " href="{{ icase.get_absolute_url }}">&nbsp; Detail &nbsp;</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="7">
+                        <div class="pagination">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link btn btn-primary" href="?page=1" aria-label="First">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">First</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                                            aria-label="Previous">
+                                            <span aria-hidden="true">&lsaquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+
+                                    <li class="page-item disabled">
+                                        <span class="page-link">
+                                            Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+                                        </span>
+                                    </li>
+
+                                    {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}"
+                                            aria-label="Next">
+                                            <span aria-hidden="true">&rsaquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ paginator.num_pages }}" aria-label="Last">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Last</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {% endblock content %}

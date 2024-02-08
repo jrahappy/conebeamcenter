@@ -1,0 +1,36 @@
+{% extends 'dashboard/_base.html' %}
+
+{% block title %}
+Calendar
+{% endblock %}
+
+{% block content %}
+<style>
+
+</style>
+<main class="d-flex flex-column p-2 mb-3">
+	<div class="d-flex justify-content-between">
+		<div class="p-2">
+			<h4 class="h2">Calendar</h4>
+		</div>
+		<hr>
+		<div class="p-2">
+			<a class="btn btn-success btn-sm mx-2" href="{% url 'cal:event_new' %}"> New Event </a>
+			<a class="btn btn-primary btn-sm" href="{% url 'cal:calendar' %}?{{ prev_month }}"> Previous Month </a>
+			<a class="btn btn-primary btn-sm" href="{% url 'cal:calendar' %}?{{ next_month }}"> Next Month </a>
+
+		</div>
+	</div>
+	<hr>
+	<div class="p-2 ">
+		<div class="m-0 border-0">
+			<div class="d-flex flex-column ">
+				<div class="">
+					{{ calendar }}
+				</div>
+			</div>
+		</div>
+
+	</div>
+</main>
+{% endblock %}

@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <title>{% block title %}ImplantSavvy Dashboard{% endblock title %}</title>
+    <meta name="description" content="Conebeam Center">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+
+    {% block css %}
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+
+    {% endblock %}
+
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <header class="p-3 mb-3 border-bottom ">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/"
+                    class="d-flex align-items-center justify-content-start mb-2 mb-lg-0 link-body-emphasis text-decoration-none"
+                    style="margin-right: 4rem;">
+                    <h4>Conebeam Center</h4>
+                </a>
+
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/" class="nav-link px-2 link-body-emphasis">Homepage</a></li>
+                    <li><a href="{% url 'icases:icase-list' %}" class="nav-link px-2 link-body-emphasis">Dashboard</a>
+                    <li><a href="{% url 'cal:calendar'%}" class="nav-link px-2 link-body-emphasis">Calendar</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            {{ request.resolver_match.app_name }}
+                        </a>
+                    </li>
+                </ul>
+
+
+                <div class="dropdown text-end">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Hello
+                        {{ user.username }}</a>
+                    </a>
+                    <ul class="dropdown-menu text-small">
+                        <li><a class="dropdown-item" href="{% url 'accounts:user-profile' %}">Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:user-update' %}">Basic user information</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'account_logout' %}">Sign out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="container-fluid">
+        <div class="d-flex flex-row">
+            <div class="flex-shrink-0 p-3 bg-white" style="width: 200px;">
+
+
+                <ul class="list-unstyled ps-0">
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#home-collapse" aria-expanded="true">
+                            Cases
+                        </button>
+                        <div class="collapse show" id="home-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="{% url 'icases:icase-list' %}" class="link-dark rounded">List</a></li>
+                                <li><a href="{% url 'icases:icase-create' %}" class="link-dark rounded">New case</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#dashboard-collapse" aria-expanded="false">
+                            Support
+                        </button>
+                        <div class="collapse show" id="dashboard-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="{% url 'support:home' %}" class="link-dark rounded">Articles</a></li>
+                                <li><a href="#" class="link-dark rounded">Download</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="border-top my-3"></li>
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#orders-collapse" aria-expanded="false">
+                            Billing
+                        </button>
+                        <div class="collapse show" id="orders-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="#" class="link-dark rounded">List</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="b-divider"></div>
+            <div class="flex-fill">
+
+                {% block content %}
+
+                {% endblock content %}
+
+
+            </div>
+        </div>
+        <div class="modal modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">
+                            {{request.resolver_match.app_name }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body modal-dialog-scrollable">
+                        <div class="container-fluid">
+                            <div class="row">
+                                {% for table, columns in table_columns.items %}
+
+                                <div class="card col-4" style="width:15rem; margin-bottom:1rem;">
+                                    <div class="card-header bg-dark h5 text-light ">
+                                        {{ table|slice:"3:"}}
+
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        {% for column in columns %}
+                                        <li class="d-flex justify-content-between">
+                                            <span style="font-size:14px;font-weight: bold;margin-left:1rem;">
+                                                {{ column.name }}
+                                            </span>
+                                            <span style="font-size:14px;margin-right:1rem">{{ column.type_code }}</span>
+                                        </li>
+                                        {% endfor %}
+
+                                    </ul>
+                                </div>
+
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+
+    </div>
+    <footer class="py-3 my-4" style="border-top:1px solid;">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item"><a href="/" class="nav-link px-2 text-body-secondary">Home</a></li>
+            <li class="nav-item"><a href="/#faqs" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+            <li class="nav-item"><a href="{% url 'about' %)" class="nav-link px-2 text-body-secondary">About</a>
+            </li>
+        </ul>
+        <p class="text-center text-body-secondary">© 2023 Healthhub, Inc</p>
+    </footer>
+
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js"
+        integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- and it's easy to individually load additional languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+</body>
+
+</html>

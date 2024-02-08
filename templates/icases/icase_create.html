@@ -1,0 +1,26 @@
+{% extends 'dashboard/_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Create new case {% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between">
+    <div class="p-2">
+        <h4 class="h4">Create a case</h4>
+    </div>
+    <div class="p-2">
+        <a class="btn btn-primary btn-sm" href="{% url 'icases:icase-list' %}">Back to List</a>
+    </div>
+</div>
+<div class="p-2 shadow">
+    <div class="">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

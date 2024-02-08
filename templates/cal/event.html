@@ -1,0 +1,65 @@
+{% extends 'dashboard/_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Event
+{% endblock %}
+
+{% block content %}
+<style>
+
+</style>
+<main class="d-flex flex-column p-2 mb-3">
+  <div class="d-flex justify-content-between">
+    <div class="p-2">
+      <h4 class="h2">Calendar</h4>
+    </div>
+    <hr>
+    <div class="p-2">
+      <a class="btn btn-success btn-sm mx-2" href="{% url 'cal:calendar' %}"> Back to Calendar </a>
+
+      <a class="btn btn-primary btn-sm" href="{% url 'cal:calendar' %}?{{ prev_month }}"> Previous Month </a>
+      <a class="btn btn-primary btn-sm" href="{% url 'cal:calendar' %}?{{ next_month }}"> Next Month </a>
+
+    </div>
+  </div>
+  <hr>
+  <div class="p-2 ">
+    <div class="m-0 border-0">
+      <div class="d-flex flex-column ">
+        <div class="">
+          {% if form.errors %}
+          {% for field in form %}
+          {% for error in field.errors %}
+          <div class="alert alert-danger">
+            {{ field.label }} <strong>{{ error|escape }}</strong>
+          </div>
+          {% endfor %}
+          {% endfor %}
+
+          {% for error in form.non_field_errors %}
+          <div class="alert alert-danger">
+            {{ field.label }} <strong>{{ error|escape }}</strong>
+          </div>
+          {% endfor %}
+          {% endif %}
+
+          <form method="post">
+            {% csrf_token %}
+            <table class="form form-table">
+              {{ form | crispy}}
+              <tr>
+                <td colspan="2"><button type="submit" class="btn btn-success"> Save </button></td>
+              </tr>
+            </table>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+
+
+{% endblock %}
